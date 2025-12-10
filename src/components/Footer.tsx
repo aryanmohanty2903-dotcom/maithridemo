@@ -14,18 +14,13 @@ export default function Footer({ darkMode }: FooterProps) {
           {/* Company Info */}
           <div className="space-y-6">
             <div className="flex items-center space-x-3">
-              {/* --- LOGO IMAGE SECTION --- */}
+              {/* --- UPDATED LOGO PATH --- */}
               <img 
-                src="/public/Maithri Aquatech_Logo_2022.jpg" 
+                src="/logo.jpg" 
                 alt="Maithri Aquatech" 
-                className="h-12 w-auto rounded-lg bg-white p-0.5" // Added bg-white to ensure logo visibility on dark footer
+                className="h-12 w-auto rounded-lg bg-white p-0.5" 
               />
-              {/* -------------------------- */}
-              
-              {/* <div className="text-white">
-                <h3 className="text-lg font-bold">MAITHRI AQUATECH</h3>
-                <p className="text-sm text-gray-400">Research & Development</p>
-              </div> */}
+              {/* ------------------------- */}
             </div>
             
             <p className="text-gray-400 leading-relaxed">
