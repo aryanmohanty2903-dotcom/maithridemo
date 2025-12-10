@@ -15,7 +15,7 @@ export default function Header({ darkMode, toggleDarkMode }: HeaderProps) {
         <div className="flex justify-between items-center py-4">
           <div className="flex items-center space-x-3">
             <img 
-              src="/Maithri Aquatech_Logo_2022.jpg" 
+              src="/Maithri_Aquatech_Logo_2022.jpg" 
               alt="Maithri Aquatech" 
               className="h-12 w-auto rounded-lg shadow-sm"
             />
