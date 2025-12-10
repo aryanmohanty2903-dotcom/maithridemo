@@ -1,6 +1,6 @@
 import { 
   Camera, Play, Eye, Calendar, Tag, 
-  X, ChevronLeft, ChevronRight, Maximize2, Share2, Filter 
+  X, ChevronLeft, ChevronRight, Maximize2, Share2, Filter, ArrowDown 
 } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
 
@@ -10,7 +10,10 @@ interface GalleryProps {
 
 export default function Gallery({ darkMode }: GalleryProps) {
   const [activeCategory, setActiveCategory] = useState('All');
-  const [visibleCount, setVisibleCount] = useState(6);
+  
+  // UPDATED: Start with 3 items (1 Row on Desktop)
+  const [visibleCount, setVisibleCount] = useState(3);
+  
   const [selectedItemIndex, setSelectedItemIndex] = useState<number | null>(null);
   const [isHovered, setIsHovered] = useState<number | null>(null);
 
@@ -202,7 +205,7 @@ export default function Gallery({ darkMode }: GalleryProps) {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* --- HEADER: Professional & Modern --- */}
+        {/* --- HEADER --- */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
           <div className="max-w-2xl">
             <span className={`inline-block py-1 px-3 rounded-full text-xs font-bold uppercase tracking-wider mb-4 border ${darkMode ? 'bg-purple-900/30 border-purple-700 text-purple-400' : 'bg-purple-50 border-purple-200 text-purple-600'}`}>
@@ -219,7 +222,7 @@ export default function Gallery({ darkMode }: GalleryProps) {
               {categories.map((category) => (
                 <button
                   key={category}
-                  onClick={() => { setActiveCategory(category); setVisibleCount(6); }}
+                  onClick={() => { setActiveCategory(category); setVisibleCount(3); }} // Reset to 3 on filter change
                   className={`px-5 py-2.5 rounded-full text-sm font-bold whitespace-nowrap transition-all duration-300
                     ${activeCategory === category
                       ? 'bg-slate-900 text-white shadow-lg'
@@ -235,7 +238,7 @@ export default function Gallery({ darkMode }: GalleryProps) {
           </div>
         </div>
 
-        {/* --- CINEMATIC GRID --- */}
+        {/* --- CINEMATIC GRID (1 ROW by Default) --- */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {displayedItems.map((item, index) => (
             <div
@@ -243,7 +246,8 @@ export default function Gallery({ darkMode }: GalleryProps) {
               onClick={() => openLightbox(index)}
               onMouseEnter={() => setIsHovered(index)}
               onMouseLeave={() => setIsHovered(null)}
-              className="group relative h-[400px] rounded-3xl overflow-hidden cursor-pointer shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
+              className="group relative h-[400px] rounded-3xl overflow-hidden cursor-pointer shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both"
+              style={{ animationDelay: `${index * 100}ms` }}
             >
               {/* Image Background */}
               <img
@@ -263,7 +267,7 @@ export default function Gallery({ darkMode }: GalleryProps) {
                 </span>
               </div>
 
-              {/* Content Overlay (Always Visible but Animates) */}
+              {/* Content Overlay */}
               <div className="absolute bottom-0 left-0 w-full p-8 z-20 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                 <div className="flex items-center gap-3 mb-3 opacity-80">
                   <span className="text-purple-300 text-xs font-bold uppercase tracking-wider">{item.category}</span>
@@ -277,7 +281,6 @@ export default function Gallery({ darkMode }: GalleryProps) {
                   {item.title}
                 </h3>
                 
-                {/* Description reveals on hover */}
                 <div className={`grid transition-all duration-300 ${isHovered === index ? 'grid-rows-[1fr] opacity-100 mt-3' : 'grid-rows-[0fr] opacity-0'}`}>
                   <div className="overflow-hidden">
                     <p className="text-white/70 text-sm leading-relaxed mb-4">
@@ -293,14 +296,13 @@ export default function Gallery({ darkMode }: GalleryProps) {
                   </div>
                 </div>
 
-                {/* Hover Indicator Line */}
                 <div className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-500 w-0 group-hover:w-full"></div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* --- LOAD MORE TRIGGER --- */}
+        {/* --- VIEW MORE CONTENT BUTTON --- */}
         {visibleCount < filteredItems.length && (
           <div className="flex justify-center mt-16">
             <button 
@@ -308,8 +310,8 @@ export default function Gallery({ darkMode }: GalleryProps) {
               className={`group flex items-center gap-3 px-8 py-4 rounded-full font-bold transition-all duration-300 hover:scale-105 shadow-xl
                 ${darkMode ? 'bg-white text-slate-900 hover:bg-purple-50' : 'bg-slate-900 text-white hover:bg-slate-800'}`}
             >
-              <Filter size={18} className="group-hover:rotate-180 transition-transform duration-500" />
-              Load More Moments
+              View More Content
+              <ArrowDown size={18} className="group-hover:translate-y-1 transition-transform duration-300" />
             </button>
           </div>
         )}
