@@ -1,10 +1,13 @@
-import { BookOpen, Calendar, ExternalLink, Download, Award, TrendingUp } from 'lucide-react';
+import { BookOpen, Calendar, ExternalLink, Download, Award, TrendingUp, ChevronDown, ChevronUp } from 'lucide-react';
+import { useState } from 'react';
 
 interface NewsPublicationsProps {
   darkMode: boolean;
 }
 
 export default function NewsPublications({ darkMode }: NewsPublicationsProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   const publications = [
     {
       title: "Advanced MOF-Based Desiccants for Atmospheric Water Harvesting",
@@ -72,6 +75,10 @@ export default function NewsPublications({ darkMode }: NewsPublicationsProps) {
     }
   ];
 
+  // Logic to determine what to show based on state
+  const displayedPublications = isExpanded ? publications : publications.slice(0, 1);
+  const displayedNews = isExpanded ? news : news.slice(0, 1);
+
   return (
     <section id="publications" className={`py-20 ${darkMode ? 'bg-slate-800' : 'bg-white'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -120,7 +127,7 @@ export default function NewsPublications({ darkMode }: NewsPublicationsProps) {
           <div>
             <h3 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'} mb-8`}>Recent Publications</h3>
             <div className="space-y-6">
-              {publications.map((pub, index) => (
+              {displayedPublications.map((pub, index) => (
                 <div
                   key={index}
                   className={`${darkMode ? 'bg-slate-700/30' : 'bg-gray-50'} rounded-xl p-6 border ${darkMode ? 'border-slate-600' : 'border-gray-200'} hover:shadow-lg transition-all duration-300`}
@@ -181,7 +188,7 @@ export default function NewsPublications({ darkMode }: NewsPublicationsProps) {
           <div>
             <h3 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'} mb-8`}>Latest News</h3>
             <div className="space-y-6">
-              {news.map((item, index) => (
+              {displayedNews.map((item, index) => (
                 <div
                   key={index}
                   className={`${darkMode ? 'bg-slate-700/30' : 'bg-gray-50'} rounded-xl overflow-hidden border ${darkMode ? 'border-slate-600' : 'border-gray-200'} hover:shadow-lg transition-all duration-300`}
@@ -220,16 +227,19 @@ export default function NewsPublications({ darkMode }: NewsPublicationsProps) {
           </div>
         </div>
 
-        {/* View All Button */}
+        {/* View All / Show Less Button */}
         <div className="text-center mt-12">
-          <div className="flex flex-wrap justify-center gap-4">
-            <button className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
-              View All Publications
-            </button>
-            <button className={`border-2 ${darkMode ? 'border-slate-400 hover:border-white text-slate-300 hover:text-white' : 'border-gray-300 hover:border-blue-600 text-gray-700 hover:text-blue-600'} px-8 py-4 rounded-xl font-semibold transition-all duration-300`}>
-              Subscribe to Updates
-            </button>
-          </div>
+          <button 
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="group flex items-center justify-center mx-auto bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
+          >
+            {isExpanded ? 'Show Less' : 'View All Updates'}
+            {isExpanded ? (
+              <ChevronUp className="ml-2 group-hover:-translate-y-1 transition-transform" size={20} />
+            ) : (
+              <ChevronDown className="ml-2 group-hover:translate-y-1 transition-transform" size={20} />
+            )}
+          </button>
         </div>
       </div>
     </section>
