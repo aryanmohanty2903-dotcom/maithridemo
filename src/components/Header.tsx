@@ -15,7 +15,6 @@ export default function Header({ darkMode, toggleDarkMode }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // Dynamic shadow effect on scroll
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
@@ -33,72 +32,77 @@ export default function Header({ darkMode, toggleDarkMode }: HeaderProps) {
 
   return (
     <header 
-      className={`fixed top-0 w-full z-50 transition-all duration-500 border-b
+      className={`fixed top-0 w-full z-50 transition-all duration-300 border-b
       ${scrolled 
-        ? (darkMode ? 'bg-slate-900/95 border-slate-800 shadow-xl' : 'bg-white/95 border-gray-200 shadow-xl') 
-        : (darkMode ? 'bg-transparent border-transparent' : 'bg-transparent border-transparent')}
-      backdrop-blur-none`} 
-      // Removed global blur when not scrolled to keep it clean, blur is on elements now
+        ? (darkMode ? 'bg-slate-900 border-slate-800 shadow-lg' : 'bg-white border-gray-200 shadow-lg') 
+        : 'bg-transparent border-transparent'} 
+      `}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-24">
           
-          {/* --- LOGO SECTION (Added white background for better visibility) --- */}
+          {/* --- LOGO SECTION --- */}
           <div className="flex items-center gap-4 group cursor-pointer">
-            <div className={`relative p-1.5 rounded-2xl transition-all duration-300 shadow-lg group-hover:scale-105 ${darkMode ? 'bg-slate-800' : 'bg-white'}`}>
+            {/* Logo Image Wrapper */}
+            <div className={`p-1 rounded-xl transition-all duration-300 shadow-lg
+              ${scrolled 
+                ? (darkMode ? 'bg-slate-800' : 'bg-white') 
+                : 'bg-white' /* Always white bg at top for the logo image */
+              }`}>
               <img 
                 src="/logo.jpg" 
                 alt="Maithri Aquatech" 
-                className="h-12 w-auto rounded-xl"
+                className="h-12 w-auto rounded-lg"
               />
             </div>
-            {/* Added text shadow for readability on hero image */}
-            <div className={`flex flex-col justify-center transition-colors duration-300 ${!scrolled && !darkMode ? 'drop-shadow-md' : ''}`}>
-              <h1 className={`text-xl md:text-2xl font-black tracking-tight leading-none 
+
+            {/* Logo Text - The Fix for Readability */}
+            <div className="flex flex-col justify-center">
+              <h1 className={`text-xl md:text-2xl font-black tracking-tight leading-none transition-colors duration-300
                 ${scrolled 
-                  ? (darkMode ? 'text-white' : 'text-slate-900')
-                  : 'text-white' /* Force white text when transparent on hero */
+                  ? (darkMode ? 'text-white' : 'text-slate-900') 
+                  : 'text-white drop-shadow-lg' /* FORCE WHITE TEXT AT TOP */
                 }`}>
                 MAITHRI
-                <span className="text-blue-400"> AQUATECH</span>
+                <span className={scrolled ? 'text-blue-500' : 'text-blue-200'}> AQUATECH</span>
               </h1>
-              <span className={`text-xs font-bold tracking-widest uppercase mt-1 
+              <span className={`text-xs font-bold tracking-widest uppercase mt-1 transition-colors duration-300
                 ${scrolled 
-                   ? (darkMode ? 'text-slate-400' : 'text-slate-500')
-                   : 'text-blue-100' /* Light text when transparent */
+                  ? (darkMode ? 'text-slate-400' : 'text-slate-500') 
+                  : 'text-gray-100 drop-shadow-md' /* FORCE LIGHT GREY AT TOP */
                 }`}>
                 Research & Development
               </span>
             </div>
           </div>
 
-          {/* --- DESKTOP NAV (The "Pill" - Made Solid for Readability) --- */}
-          {/* We force a solid background here so text is ALWAYS readable */}
-          <nav className={`hidden xl:flex items-center gap-1 p-1.5 rounded-full border shadow-2xl backdrop-blur-xl transition-all duration-300
-            ${darkMode 
-              ? 'bg-slate-900/90 border-slate-700 shadow-black/50' 
-              : 'bg-white/95 border-white/50 shadow-blue-900/20' /* Solid White in light mode */
+          {/* --- DESKTOP NAV (Solid Box for Readability) --- */}
+          <nav className={`hidden xl:flex items-center gap-1 p-1.5 rounded-full border shadow-2xl transition-all duration-300
+            ${scrolled
+              ? (darkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-gray-100/50 border-gray-200')
+              : 'bg-white/95 border-white shadow-blue-900/30' /* SOLID WHITE PILL AT TOP */
             }`}>
             
             {navItems.map((item) => (
               <a 
                 key={item.name}
                 href={item.href} 
-                className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 flex items-center gap-2
-                  ${darkMode 
-                    ? 'text-slate-300 hover:text-white hover:bg-slate-800' 
-                    : 'text-slate-700 hover:text-blue-600 hover:bg-blue-50'}`}
+                className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300
+                  ${scrolled
+                    ? (darkMode ? 'text-slate-300 hover:text-white hover:bg-slate-700' : 'text-slate-600 hover:text-blue-600 hover:bg-white')
+                    : 'text-slate-800 hover:text-blue-600 hover:bg-blue-50' /* Dark text inside the white pill */
+                  }`}
               >
                 {item.name}
               </a>
             ))}
             
-            <div className={`w-px h-6 mx-2 ${darkMode ? 'bg-slate-700' : 'bg-gray-300'}`}></div>
+            <div className={`w-px h-6 mx-2 ${scrolled && darkMode ? 'bg-slate-600' : 'bg-gray-300'}`}></div>
             
             <button
               onClick={toggleDarkMode}
-              className={`p-2.5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 shadow-inner
-                ${darkMode ? 'bg-yellow-400 text-slate-900' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+              className={`p-2.5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95
+                ${darkMode ? 'bg-yellow-400 text-slate-900' : 'bg-slate-900 text-white'}`}
             >
               {darkMode ? <Sun size={18} strokeWidth={3} /> : <Moon size={18} strokeWidth={3} />}
             </button>
@@ -106,18 +110,20 @@ export default function Header({ darkMode, toggleDarkMode }: HeaderProps) {
 
           {/* --- MOBILE TOGGLE --- */}
           <div className="xl:hidden flex items-center gap-4">
-             {/* Background added to buttons for readability */}
             <button
               onClick={toggleDarkMode}
-              className={`p-3 rounded-xl transition-all shadow-lg ${darkMode ? 'bg-slate-800 text-yellow-400' : 'bg-white text-slate-700'}`}
+              className={`p-3 rounded-xl transition-all shadow-lg 
+                ${scrolled 
+                  ? (darkMode ? 'bg-slate-800 text-yellow-400' : 'bg-gray-100 text-slate-700')
+                  : 'bg-white text-slate-900'}`}
             >
               {darkMode ? <Sun size={20} /> : <Moon size={20} />}
             </button>
             <button
               className={`p-3 rounded-xl transition-all active:scale-95 shadow-lg
                 ${isMenuOpen 
-                  ? 'bg-red-500 text-white rotate-90 shadow-red-500/30' 
-                  : 'bg-blue-600 text-white shadow-blue-600/30'}`}
+                  ? 'bg-red-500 text-white rotate-90' 
+                  : 'bg-blue-600 text-white'}`}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen ? <X size={24} strokeWidth={3} /> : <Menu size={24} strokeWidth={3} />}
