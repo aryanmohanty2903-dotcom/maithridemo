@@ -5,188 +5,245 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/png" href="/INSTA FUN FACTS (5).png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Maithri Aquatech Dynamic R&amp;D Website</title>
+  <title>Maithri Aquatech R&D</title>
   
-  <meta name="description" content="Maithri Aquatech R&D: Pioneering the future of water." />
-
   <style>
-    /* --- CORE PRELOADER STYLES --- */
-    .preloader-container {
+    /* --- 1. SETUP --- */
+    body { margin: 0; padding: 0; overflow: hidden; background: #0f172a; } /* Dark base for contrast */
+
+    #preloader {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      background: linear-gradient(to bottom, #87CEEB 0%, #E0F2FE 80%, #ffffff 100%);
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+      z-index: 99999;
       display: flex;
       justify-content: center;
       align-items: center;
-      z-index: 99999;
       overflow: hidden;
-      transition: opacity 0.5s ease-out, visibility 0.5s ease-out; /* Faster exit */
+      transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
     }
 
-    .preloader-container.hidden {
+    #preloader.hidden {
       opacity: 0;
       visibility: hidden;
-    }
-
-    /* --- CLOUDS --- */
-    .cloud-bg {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
       pointer-events: none;
     }
 
-    .cloud-1, .cloud-2, .cloud-3 {
+    /* --- 2. VAPOR PARTICLES (Interactive) --- */
+    .particle {
       position: absolute;
-      background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+      background: rgba(56, 189, 248, 0.6); /* Sky blue */
       border-radius: 50%;
-      filter: blur(15px);
-      opacity: 0.7;
-    }
-    .cloud-1 { width: 600px; height: 400px; top: -150px; left: -100px; animation: drift 20s infinite linear alternate; }
-    .cloud-2 { width: 500px; height: 300px; top: -80px; right: -50px; animation: drift 25s infinite linear alternate-reverse; }
-    .cloud-3 { width: 800px; height: 400px; top: 10%; left: 30%; opacity: 0.5; animation: drift 30s infinite linear alternate; }
-
-    /* --- THE FALLING WATER DROP --- */
-    .water-drop {
-      position: absolute;
-      width: 30px;
-      height: 30px;
-      background: radial-gradient(circle at 30% 30%, #ffffff, #38bdf8 60%, #0284c7 100%);
-      border-radius: 50%;
-      box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);
-      top: -50px; 
-      opacity: 0;
-      animation: condense-and-fall 1.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) forwards;
+      pointer-events: none;
+      transition: transform 0.2s ease-out;
     }
 
-    /* --- THE FINAL LOGO WRAPPER --- */
-    .final-logo-wrapper {
+    /* --- 3. THE CENTER WATER SPHERE --- */
+    .water-sphere {
       position: relative;
-      width: 150px; 
-      height: auto;
+      width: 0;
+      height: 0;
+      background: radial-gradient(circle at 30% 30%, #ffffff, #38bdf8 50%, #0284c7 100%);
+      border-radius: 50%;
+      box-shadow: 0 0 40px rgba(56, 189, 248, 0.6);
+      z-index: 10;
+      animation: condense 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) 2.5s forwards; /* Starts after particles gather */
+    }
+
+    /* --- 4. RIPPLE SHOCKWAVE --- */
+    .ripple {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      border: 2px solid rgba(56, 189, 248, 0.8);
+      border-radius: 50%;
+      width: 0; height: 0;
+      opacity: 0;
+      z-index: 5;
+    }
+
+    .ripple.active {
+      animation: ripple-effect 1s ease-out forwards;
+    }
+
+    /* --- 5. LOGO REVEAL --- */
+    .logo-container {
+      position: absolute;
+      z-index: 20;
       display: flex;
       flex-direction: column;
       align-items: center;
+      opacity: 0;
+      transform: scale(0.5);
+      transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    .logo-reveal-img {
-      width: 100%;
+    .logo-container.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .logo-img {
+      width: 140px;
       height: auto;
-      opacity: 0;
-      transform: scale(0.8);
-      animation: logo-splash-reveal 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 1.1s forwards;
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
     }
 
-    .loading-text {
+    .loading-bar-track {
+      width: 150px;
+      height: 3px;
+      background: rgba(255,255,255,0.1);
       margin-top: 20px;
-      font-family: sans-serif;
-      color: #0369a1;
-      font-weight: 700;
-      letter-spacing: 1px;
-      opacity: 0;
-      white-space: nowrap; 
-      animation: text-fade-in 0.5s ease-out 1.3s forwards;
-    }
-
-    /* --- LOADING BAR --- */
-    .progress-track {
-      width: 180px;
-      height: 4px;
-      background: rgba(3, 105, 161, 0.1);
       border-radius: 10px;
-      margin-top: 15px;
       overflow: hidden;
-      opacity: 0;
-      /* Appears at 1.5s */
-      animation: fade-in-bar 0.5s ease-out 1.5s forwards; 
     }
 
-    .progress-fill {
+    .loading-bar-fill {
       width: 0%;
       height: 100%;
-      background: linear-gradient(90deg, #38bdf8, #0284c7);
-      border-radius: 10px;
-      /* Starts filling at 1.5s, takes 2.5s to finish. Total = 4.0s */
-      animation: fill-bar 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) 1.5s forwards;
+      background: #38bdf8;
+      transition: width 0.5s ease-out;
     }
 
     /* --- ANIMATIONS --- */
-    @keyframes drift {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(50px); }
+    @keyframes condense {
+      0% { width: 0; height: 0; opacity: 0; }
+      50% { width: 80px; height: 80px; opacity: 1; transform: scale(1.2); }
+      100% { width: 0; height: 0; opacity: 0; transform: scale(0.1); } /* Implodes */
     }
 
-    @keyframes condense-and-fall {
-      0% { top: 5%; opacity: 0; transform: scale(0.1); border-radius: 50%; }
-      30% { top: 15%; opacity: 1; transform: scale(1); border-radius: 50%; }
-      85% { transform: scale(0.9, 1.3) translateY(0); border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%; }
-      100% { top: 50%; transform: scale(1.5, 0.5) translateY(20px); opacity: 0; }
+    @keyframes ripple-effect {
+      0% { width: 0; height: 0; opacity: 0.8; border-width: 5px; }
+      100% { width: 800px; height: 800px; opacity: 0; border-width: 0px; }
     }
 
-    @keyframes logo-splash-reveal {
-      0% { opacity: 0; transform: scale(0.8); filter: blur(5px); }
-      100% { opacity: 1; transform: scale(1); filter: blur(0px); }
+    /* Text shimmering effect */
+    .tagline {
+      margin-top: 10px;
+      color: #94a3b8;
+      font-family: sans-serif;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: linear-gradient(to right, #94a3b8 0%, #ffffff 50%, #94a3b8 100%);
+      background-size: 200% auto;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 3s linear infinite;
     }
 
-    @keyframes text-fade-in {
-      to { opacity: 1; }
-    }
-
-    @keyframes fade-in-bar {
-      to { opacity: 1; }
-    }
-
-    @keyframes fill-bar {
-      0% { width: 0%; }
-      100% { width: 100%; }
+    @keyframes shimmer {
+      to { background-position: 200% center; }
     }
   </style>
 </head>
 
 <body>
-  <div class="preloader-container" id="atm-preloader">
-    <div class="cloud-bg">
-      <div class="cloud-1"></div>
-      <div class="cloud-2"></div>
-      <div class="cloud-3"></div>
-    </div>
 
-    <div class="water-drop"></div>
-
-    <div class="final-logo-wrapper">
-      <img src="/INSTA FUN FACTS (5).png" alt="Maithri Aquatech Logo" class="logo-reveal-img" />
-      <div class="loading-text">GENERATING WATER FROM AIR</div>
-      <div class="progress-track">
-        <div class="progress-fill"></div>
+  <div id="preloader">
+    <div class="water-sphere"></div>
+    <div class="ripple"></div>
+    
+    <div class="logo-container">
+      <img src="/INSTA FUN FACTS (5).png" alt="Maithri Aquatech" class="logo-img" />
+      <div class="tagline">Atmospheric Innovation</div>
+      <div class="loading-bar-track">
+        <div class="loading-bar-fill" id="progress"></div>
       </div>
     </div>
   </div>
 
   <div id="root"></div>
-
   <script type="module" src="/src/main.tsx"></script>
 
   <script>
-    window.addEventListener('load', () => {
-      const preloader = document.getElementById('atm-preloader');
+    // --- CONFIGURATION ---
+    const PARTICLE_COUNT = 60; // How many "vapor" dots
+    const GATHER_TIME = 2500; // When they start rushing to center (ms)
+    const EXPLODE_TIME = 3800; // When logo appears (ms)
+    const FINISH_TIME = 5500; // Total preloader time (ms)
+
+    const preloader = document.getElementById('preloader');
+    const logoContainer = document.querySelector('.logo-container');
+    const ripple = document.querySelector('.ripple');
+    const progressBar = document.getElementById('progress');
+
+    // 1. GENERATE PARTICLES
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      const p = document.createElement('div');
+      p.classList.add('particle');
       
-      if (preloader) {
-        // MATCHED TIMING: 4000ms = 4 seconds
-        // (1.5s Delay + 2.5s Loading Bar = 4.0s Total)
-        setTimeout(() => {
-          preloader.classList.add('hidden');
-          preloader.addEventListener('transitionend', () => {
-             preloader.remove();
-          }, { once: true });
-        }, 3000); 
-      }
+      // Random size
+      const size = Math.random() * 4 + 2;
+      p.style.width = `${size}px`;
+      p.style.height = `${size}px`;
+      
+      // Random start position
+      const x = Math.random() * window.innerWidth;
+      const y = Math.random() * window.innerHeight;
+      p.style.left = `${x}px`;
+      p.style.top = `${y}px`;
+      
+      // Random float animation speed
+      p.style.transition = `all ${Math.random() * 1 + 0.5}s ease-out`;
+      
+      preloader.appendChild(p);
+    }
+
+    const particles = document.querySelectorAll('.particle');
+
+    // 2. INTERACTIVE MOUSE EFFECT (Parallax)
+    document.addEventListener('mousemove', (e) => {
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+
+      particles.forEach(p => {
+        const speed = Math.random() * 0.05;
+        const x = (window.innerWidth - mouseX * speed) / 50;
+        const y = (window.innerHeight - mouseY * speed) / 50;
+        // Apply slight movement away from cursor
+        p.style.transform = `translate(${x}px, ${y}px)`;
+      });
     });
+
+    // 3. SEQUENCE: GATHER PARTICLES (Condensation)
+    setTimeout(() => {
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+
+      particles.forEach(p => {
+        // Move all particles to exact center
+        p.style.transition = "all 1.2s cubic-bezier(0.6, -0.28, 0.735, 0.045)"; // "Suck in" effect
+        p.style.left = `${centerX}px`;
+        p.style.top = `${centerY}px`;
+        p.style.opacity = '0'; // Fade out as they merge
+      });
+    }, GATHER_TIME);
+
+    // 4. SEQUENCE: EXPLOSION & LOGO REVEAL
+    setTimeout(() => {
+      // Trigger Ripple
+      ripple.classList.add('active');
+      
+      // Show Logo
+      logoContainer.classList.add('show');
+      
+      // Fill Progress Bar
+      setTimeout(() => {
+        progressBar.style.width = "100%";
+      }, 100);
+
+    }, EXPLODE_TIME);
+
+    // 5. FINISH & EXIT
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        preloader.classList.add('hidden');
+        setTimeout(() => preloader.remove(), 1000);
+      }, FINISH_TIME);
+    });
+
   </script>
 </body>
 </html>
