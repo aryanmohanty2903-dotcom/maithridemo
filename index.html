@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/png" href="/INSTA FUN FACTS (5).png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Maithri Aquatech Dynamic R&D Website</title>
+  <title>Maithri Aquatech Dynamic R&amp;D Website</title>
   
   <meta name="description" content="Maithri Aquatech R&D: Pioneering the future of water." />
 
@@ -23,7 +23,7 @@
       align-items: center;
       z-index: 99999;
       overflow: hidden;
-      transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+      transition: opacity 0.5s ease-out, visibility 0.5s ease-out; /* Faster exit */
     }
 
     .preloader-container.hidden {
@@ -103,6 +103,7 @@
       margin-top: 15px;
       overflow: hidden;
       opacity: 0;
+      /* Appears at 1.5s */
       animation: fade-in-bar 0.5s ease-out 1.5s forwards; 
     }
 
@@ -111,26 +112,8 @@
       height: 100%;
       background: linear-gradient(90deg, #38bdf8, #0284c7);
       border-radius: 10px;
+      /* Starts filling at 1.5s, takes 2.5s to finish. Total = 4.0s */
       animation: fill-bar 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) 1.5s forwards;
-    }
-
-    /* --- UNMUTE BUTTON (For Autoplay Policy) --- */
-    #unmute-overlay {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.6);
-      color: white;
-      padding: 10px 20px;
-      border-radius: 30px;
-      font-family: sans-serif;
-      font-size: 14px;
-      cursor: pointer;
-      opacity: 0;
-      transition: opacity 0.5s;
-      z-index: 100000;
-      display: none; /* Hidden by default */
     }
 
     /* --- ANIMATIONS --- */
@@ -167,8 +150,6 @@
 </head>
 
 <body>
-  <audio id="water-sound" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" preload="auto"></audio>
-
   <div class="preloader-container" id="atm-preloader">
     <div class="cloud-bg">
       <div class="cloud-1"></div>
@@ -185,8 +166,6 @@
         <div class="progress-fill"></div>
       </div>
     </div>
-    
-    <div id="unmute-overlay">Tap screen to enable sound</div>
   </div>
 
   <div id="root"></div>
@@ -196,34 +175,16 @@
   <script>
     window.addEventListener('load', () => {
       const preloader = document.getElementById('atm-preloader');
-      const sound = document.getElementById('water-sound');
-      const unmuteOverlay = document.getElementById('unmute-overlay');
-
-      // 1. Try to play sound at 1.1s (when drop hits)
-      setTimeout(() => {
-        if (sound) {
-          const playPromise = sound.play();
-
-          if (playPromise !== undefined) {
-            playPromise.catch(error => {
-              // Auto-play was prevented. Show a hint or just fail silently.
-              console.log("Audio blocked by browser. User interaction needed.");
-              // Optional: You could show the unmuteOverlay here if you really want them to click.
-              // unmuteOverlay.style.display = 'block';
-              // setTimeout(() => unmuteOverlay.style.opacity = '1', 100);
-            });
-          }
-        }
-      }, 1100);
-
-      // 2. Hide Preloader after animation finishes (4s)
+      
       if (preloader) {
+        // MATCHED TIMING: 4000ms = 4 seconds
+        // (1.5s Delay + 2.5s Loading Bar = 4.0s Total)
         setTimeout(() => {
           preloader.classList.add('hidden');
           preloader.addEventListener('transitionend', () => {
              preloader.remove();
           }, { once: true });
-        }, 4000); 
+        }, 3000); 
       }
     });
   </script>
