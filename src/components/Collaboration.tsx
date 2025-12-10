@@ -24,9 +24,14 @@ export default function Collaboration({ darkMode }: CollaborationProps) {
     }
   };
 
-  // --- FUNCTIONALITY: EMAIL HANDLERS ---
+  // --- FUNCTIONALITY: NAVIGATION HANDLERS ---
+  
+  // UPDATED: Scrolls to the Contact section instead of opening mailto
   const handleContact = () => {
-    window.location.href = "mailto:research@maithriaquatech.com?subject=Collaboration Inquiry";
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   const handleApply = (position: string) => {
