@@ -1,6 +1,6 @@
 import { 
   Users, Building, Globe, Handshake, Award, 
-  ArrowRight, ChevronLeft, ChevronRight, Microscope, GraduationCap 
+  ArrowRight, ChevronLeft, ChevronRight, Microscope, GraduationCap, Mail 
 } from 'lucide-react';
 import { useRef } from 'react';
 
@@ -11,16 +11,26 @@ interface CollaborationProps {
 export default function Collaboration({ darkMode }: CollaborationProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  // --- FUNCTIONALITY: SCROLL HANDLER ---
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
       const { current } = scrollRef;
-      const scrollAmount = 400; // Width of card + gap
+      const scrollAmount = 400;
       if (direction === 'left') {
         current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
       } else {
         current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
       }
     }
+  };
+
+  // --- FUNCTIONALITY: EMAIL HANDLERS ---
+  const handleContact = () => {
+    window.location.href = "mailto:research@maithriaquatech.com?subject=Collaboration Inquiry";
+  };
+
+  const handleApply = (position: string) => {
+    window.location.href = `mailto:careers@maithriaquatech.com?subject=Application for ${position}`;
   };
 
   const partners = [
@@ -31,7 +41,9 @@ export default function Collaboration({ darkMode }: CollaborationProps) {
       location: "Uttarakhand",
       projects: "3 Active",
       icon: GraduationCap,
-      color: "text-blue-500"
+      color: "text-blue-500",
+      bg: "bg-blue-500/10",
+      border: "hover:border-blue-500"
     },
     {
       type: "Academic",
@@ -40,7 +52,9 @@ export default function Collaboration({ darkMode }: CollaborationProps) {
       location: "Telangana",
       projects: "2 Active",
       icon: GraduationCap,
-      color: "text-cyan-500"
+      color: "text-cyan-500",
+      bg: "bg-cyan-500/10",
+      border: "hover:border-cyan-500"
     },
     {
       type: "Research",
@@ -49,7 +63,9 @@ export default function Collaboration({ darkMode }: CollaborationProps) {
       location: "Hyderabad",
       projects: "5 Active",
       icon: Microscope,
-      color: "text-purple-500"
+      color: "text-purple-500",
+      bg: "bg-purple-500/10",
+      border: "hover:border-purple-500"
     },
     {
       type: "Academic",
@@ -58,7 +74,9 @@ export default function Collaboration({ darkMode }: CollaborationProps) {
       location: "Hyderabad Campus",
       projects: "2 Active",
       icon: GraduationCap,
-      color: "text-yellow-500"
+      color: "text-yellow-500",
+      bg: "bg-yellow-500/10",
+      border: "hover:border-yellow-500"
     },
     {
       type: "Academic",
@@ -67,7 +85,9 @@ export default function Collaboration({ darkMode }: CollaborationProps) {
       location: "Gujarat",
       projects: "4 Active",
       icon: GraduationCap,
-      color: "text-orange-500"
+      color: "text-orange-500",
+      bg: "bg-orange-500/10",
+      border: "hover:border-orange-500"
     },
     {
       type: "Global",
@@ -76,7 +96,9 @@ export default function Collaboration({ darkMode }: CollaborationProps) {
       location: "USA",
       projects: "Joint Venture",
       icon: Globe,
-      color: "text-green-500"
+      color: "text-green-500",
+      bg: "bg-green-500/10",
+      border: "hover:border-green-500"
     }
   ];
 
@@ -105,175 +127,183 @@ export default function Collaboration({ darkMode }: CollaborationProps) {
   ];
 
   return (
-    <section id="collaboration" className={`py-20 relative overflow-hidden ${darkMode ? 'bg-slate-900' : 'bg-gray-50'}`}>
+    <section id="collaboration" className={`py-24 relative overflow-hidden ${darkMode ? 'bg-slate-900' : 'bg-gray-50'}`}>
       
-      {/* Background Decor */}
-      <div className={`absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-20`}>
-        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyan-500 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+      {/* Dynamic Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-cyan-600/20 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2"></div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className={`text-4xl font-black ${darkMode ? 'text-white' : 'text-gray-900'} mb-6`}>
-            RESEARCH 
-            <span className="bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent"> COLLABORATION</span>
+        <div className="text-center mb-20">
+          <span className={`inline-block py-1 px-3 rounded-full text-xs font-bold uppercase tracking-wider mb-4 border ${darkMode ? 'bg-blue-900/30 border-blue-800 text-blue-400' : 'bg-blue-50 border-blue-100 text-blue-600'}`}>
+            Global Network
+          </span>
+          <h2 className={`text-4xl md:text-5xl font-black ${darkMode ? 'text-white' : 'text-slate-900'} mb-6 tracking-tight`}>
+            Research <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-400">Collaboration</span>
           </h2>
-          <p className={`text-xl ${darkMode ? 'text-slate-300' : 'text-gray-600'} max-w-3xl mx-auto`}>
-            Partnering with India's premier institutes to redefine water sustainability.
+          <p className={`text-xl ${darkMode ? 'text-slate-300' : 'text-slate-600'} max-w-3xl mx-auto leading-relaxed`}>
+            Partnering with India's premier institutes and global leaders to redefine water sustainability through technology.
           </p>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-20">
+        {/* Stats Grid - Floating Glass Cards */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-24">
           {[
-            { icon: Building, val: "25+", label: "Institutes" },
-            { icon: Globe, val: "15", label: "Countries" },
-            { icon: Users, val: "120+", label: "Researchers" },
+            { icon: Building, val: "25+", label: "Partner Institutes" },
+            { icon: Globe, val: "15", label: "Countries Reached" },
+            { icon: Users, val: "120+", label: "Active Researchers" },
             { icon: Award, val: "$5.2M", label: "Joint Funding" }
           ].map((stat, i) => (
-            <div key={i} className={`${darkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white border-gray-200'} rounded-2xl p-6 border text-center transform hover:scale-105 transition-all duration-300 shadow-sm`}>
-              <stat.icon className={`mx-auto mb-3 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`} size={28} />
-              <div className={`text-3xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>{stat.val}</div>
-              <div className={`text-sm ${darkMode ? 'text-slate-400' : 'text-gray-500'}`}>{stat.label}</div>
+            <div key={i} className={`group relative rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl border
+              ${darkMode ? 'bg-slate-800/40 border-slate-700 backdrop-blur-sm hover:bg-slate-800/60' : 'bg-white border-gray-100 shadow-lg hover:shadow-xl'}`}>
+              <div className={`inline-flex p-3 rounded-xl mb-4 transition-colors duration-300 ${darkMode ? 'bg-slate-700 group-hover:bg-blue-500/20' : 'bg-blue-50 group-hover:bg-blue-100'}`}>
+                <stat.icon className={`w-8 h-8 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`} />
+              </div>
+              <div className={`text-3xl font-bold mb-1 ${darkMode ? 'text-white' : 'text-slate-900'}`}>{stat.val}</div>
+              <div className={`text-sm font-medium ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>{stat.label}</div>
             </div>
           ))}
         </div>
 
-        {/* --- DYNAMIC SWIPER SLIDER --- */}
-        <div className="relative mb-24">
+        {/* --- DYNAMIC PARTNER SLIDER --- */}
+        <div className="relative mb-24 group/slider">
           <div className="flex justify-between items-end mb-8 px-2">
             <div>
-              <h3 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Strategic Partners</h3>
-              <p className={`text-sm ${darkMode ? 'text-slate-400' : 'text-gray-500'}`}>Leading academic & research institutions</p>
+              <h3 className={`text-3xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'}`}>Strategic Partners</h3>
+              <p className={`mt-2 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>Swipe to explore our academic network</p>
             </div>
             
-            {/* Slider Controls */}
-            <div className="flex gap-2">
-              <button 
-                onClick={() => scroll('left')}
-                className={`p-3 rounded-full transition-all ${darkMode ? 'bg-slate-800 hover:bg-slate-700 text-white' : 'bg-white hover:bg-gray-100 text-gray-700 shadow-md'}`}
-              >
-                <ChevronLeft size={20} />
+            <div className="flex gap-3">
+              <button onClick={() => scroll('left')} className={`p-3 rounded-full border transition-all active:scale-95 ${darkMode ? 'border-slate-700 hover:bg-slate-800 text-white' : 'border-slate-200 hover:bg-white hover:shadow-lg text-slate-700'}`}>
+                <ChevronLeft size={24} />
               </button>
-              <button 
-                onClick={() => scroll('right')}
-                className={`p-3 rounded-full transition-all ${darkMode ? 'bg-slate-800 hover:bg-slate-700 text-white' : 'bg-white hover:bg-gray-100 text-gray-700 shadow-md'}`}
-              >
-                <ChevronRight size={20} />
+              <button onClick={() => scroll('right')} className={`p-3 rounded-full border transition-all active:scale-95 ${darkMode ? 'border-slate-700 hover:bg-slate-800 text-white' : 'border-slate-200 hover:bg-white hover:shadow-lg text-slate-700'}`}>
+                <ChevronRight size={24} />
               </button>
             </div>
           </div>
 
-          {/* Scroll Container */}
-          <div 
-            ref={scrollRef}
-            className="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory hide-scrollbar"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          >
+          {/* Cards Container */}
+          <div ref={scrollRef} className="flex overflow-x-auto gap-6 pb-12 snap-x snap-mandatory hide-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {partners.map((partner, index) => (
-              <div 
-                key={index}
-                className={`min-w-[300px] md:min-w-[380px] snap-center rounded-2xl p-6 border transition-all duration-300 hover:shadow-xl group
-                  ${darkMode 
-                    ? 'bg-slate-800/40 border-slate-700 hover:border-blue-500/50 hover:bg-slate-800/80' 
-                    : 'bg-white border-gray-200 hover:border-blue-300'}`}
-              >
-                <div className="flex justify-between items-start mb-4">
-                  <div className={`p-3 rounded-xl ${darkMode ? 'bg-slate-700' : 'bg-blue-50'} ${partner.color}`}>
-                    <partner.icon size={24} />
+              <div key={index} className={`min-w-[320px] md:min-w-[400px] snap-center rounded-3xl p-8 border transition-all duration-300 hover:shadow-2xl relative overflow-hidden group
+                ${darkMode ? `bg-slate-800/40 border-slate-700 ${partner.border}` : `bg-white border-slate-100 hover:border-blue-200 shadow-lg`}`}>
+                
+                {/* Glow Effect on Hover */}
+                <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-white/10 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`}></div>
+
+                <div className="flex justify-between items-start mb-6">
+                  <div className={`p-4 rounded-2xl ${partner.bg} ${partner.color}`}>
+                    <partner.icon size={28} />
                   </div>
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold border ${darkMode ? 'border-slate-600 bg-slate-800 text-slate-300' : 'border-gray-200 bg-gray-50 text-gray-600'}`}>
+                  <span className={`px-4 py-1.5 rounded-full text-xs font-bold border tracking-wide uppercase ${darkMode ? 'border-slate-600 bg-slate-900/50 text-slate-300' : 'border-slate-200 bg-slate-50 text-slate-600'}`}>
                     {partner.type}
                   </span>
                 </div>
                 
-                <h4 className={`text-xl font-bold mb-1 ${darkMode ? 'text-white' : 'text-gray-900'} group-hover:text-blue-500 transition-colors`}>
+                <h4 className={`text-2xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-slate-900'} group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r ${partner.color === 'text-blue-500' ? 'from-blue-400 to-blue-600' : 'from-cyan-400 to-cyan-600'} transition-all`}>
                   {partner.name}
                 </h4>
-                <div className={`text-xs font-medium mb-4 ${darkMode ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wide`}>
+                <div className={`text-xs font-bold uppercase tracking-widest mb-4 opacity-60 ${darkMode ? 'text-white' : 'text-slate-900'}`}>
                   {partner.location}
                 </div>
                 
-                <p className={`text-sm leading-relaxed mb-6 ${darkMode ? 'text-slate-300' : 'text-gray-600'}`}>
+                <p className={`text-base leading-relaxed mb-8 ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                   {partner.description}
                 </p>
 
-                <div className={`pt-4 border-t flex items-center justify-between ${darkMode ? 'border-slate-700' : 'border-gray-100'}`}>
-                  <span className={`text-xs font-semibold ${darkMode ? 'text-green-400' : 'text-green-600'}`}>
-                    ● {partner.projects}
+                <div className={`pt-6 border-t flex items-center justify-between ${darkMode ? 'border-slate-700' : 'border-slate-100'}`}>
+                  <span className={`text-sm font-bold flex items-center ${darkMode ? 'text-green-400' : 'text-green-600'}`}>
+                    <div className="w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse"></div>
+                    {partner.projects}
                   </span>
-                  <ArrowRight size={16} className={`transform group-hover:translate-x-1 transition-transform ${darkMode ? 'text-slate-400' : 'text-gray-400'}`} />
+                  {/* Functional Learn More - Scrolls to Contact */}
+                  <button onClick={handleContact} className={`text-sm font-bold flex items-center group-hover:translate-x-1 transition-transform ${darkMode ? 'text-white' : 'text-slate-900'}`}>
+                    Details <ArrowRight size={16} className="ml-1" />
+                  </button>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Opportunities Grid */}
-        <div className="mb-16">
-          <h3 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'} mb-8 text-center`}>Open Opportunities</h3>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* --- OPPORTUNITIES GRID --- */}
+        <div className="mb-24">
+          <h3 className={`text-3xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'} mb-10 text-center`}>Collaboration Opportunities</h3>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {opportunities.map((opp, index) => (
-              <div
-                key={index}
-                className={`relative overflow-hidden rounded-2xl p-6 border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg
-                  ${darkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white border-gray-200'}`}
-              >
-                <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-br opacity-10 rounded-bl-full -mr-4 -mt-4
-                  ${index === 0 ? 'from-blue-500 to-purple-500' : index === 1 ? 'from-green-500 to-cyan-500' : 'from-orange-500 to-red-500'}`}>
-                </div>
-
-                <span className={`inline-block px-3 py-1 rounded-md text-xs font-bold mb-4
-                  ${darkMode ? 'bg-slate-700 text-slate-300' : 'bg-gray-100 text-gray-600'}`}>
-                  {opp.type}
-                </span>
-
-                <h4 className={`text-lg font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>{opp.title}</h4>
-                <p className={`text-sm mb-4 ${darkMode ? 'text-slate-300' : 'text-gray-600'}`}>{opp.description}</p>
+              <div key={index} className={`relative rounded-3xl p-8 border transition-all duration-300 hover:-translate-y-2 hover:shadow-xl flex flex-col
+                ${darkMode ? 'bg-slate-800/30 border-slate-700 hover:border-blue-500/30' : 'bg-white border-slate-100 hover:border-blue-200 shadow-lg'}`}>
                 
-                <div className="space-y-3 mb-6">
-                  {opp.requirements.slice(0, 2).map((req, i) => (
-                    <div key={i} className={`flex items-center text-xs ${darkMode ? 'text-slate-400' : 'text-gray-500'}`}>
-                      <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mr-2"></div>
-                      {req}
-                    </div>
-                  ))}
+                <div className="mb-6">
+                  <span className={`inline-block px-3 py-1 rounded-lg text-xs font-bold mb-4 ${darkMode ? 'bg-blue-500/20 text-blue-300' : 'bg-blue-50 text-blue-700'}`}>
+                    {opp.type}
+                  </span>
+                  <h4 className={`text-xl font-bold mb-3 ${darkMode ? 'text-white' : 'text-slate-900'}`}>{opp.title}</h4>
+                  <p className={`text-sm leading-relaxed ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>{opp.description}</p>
                 </div>
+                
+                <div className="mt-auto space-y-4">
+                  <div className="space-y-2">
+                    {opp.requirements.slice(0, 2).map((req, i) => (
+                      <div key={i} className={`flex items-center text-xs font-medium ${darkMode ? 'text-slate-500' : 'text-slate-500'}`}>
+                        <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mr-2"></div>
+                        {req}
+                      </div>
+                    ))}
+                  </div>
 
-                <button className={`w-full py-2.5 rounded-lg text-sm font-semibold border transition-colors
-                  ${darkMode 
-                    ? 'border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white' 
-                    : 'border-gray-200 text-gray-600 hover:bg-gray-50 hover:text-blue-600'}`}>
-                  View Details
-                </button>
+                  {/* FUNCTIONAL BUTTON */}
+                  <button 
+                    onClick={() => handleApply(opp.title)}
+                    className={`w-full py-3 rounded-xl text-sm font-bold flex items-center justify-center space-x-2 transition-all
+                    ${darkMode 
+                      ? 'bg-slate-700 hover:bg-blue-600 text-white' 
+                      : 'bg-slate-100 hover:bg-blue-600 text-slate-700 hover:text-white'}`}
+                  >
+                    <span>Apply Now</span>
+                    <ArrowRight size={16} />
+                  </button>
+                </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* CTA Banner */}
-        <div className={`relative overflow-hidden rounded-3xl p-8 md:p-12 text-center border
-          ${darkMode ? 'bg-slate-800 border-slate-700' : 'bg-blue-600 border-blue-500'}`}>
+        {/* --- CTA SECTION (Functional) --- */}
+        <div className={`relative overflow-hidden rounded-[2.5rem] p-10 md:p-16 text-center shadow-2xl
+          ${darkMode ? 'bg-gradient-to-br from-blue-900 to-slate-900' : 'bg-gradient-to-br from-blue-600 to-cyan-600'}`}>
           
-          <div className="relative z-10">
-            <Handshake className="mx-auto text-white/90 mb-6" size={48} />
-            <h3 className="text-3xl font-bold text-white mb-4">
-              Collaborate with Maithri Aquatech
+          <div className="relative z-10 flex flex-col items-center">
+            <div className="bg-white/10 p-4 rounded-2xl backdrop-blur-md mb-6 inline-flex">
+              <Handshake className="text-white" size={40} />
+            </div>
+            <h3 className="text-3xl md:text-4xl font-black text-white mb-6">
+              Ready to Innovate with Us?
             </h3>
-            <p className="text-blue-100 text-lg mb-8 max-w-2xl mx-auto">
-              We are actively seeking research partners to advance the frontiers of Atmospheric Water Generation.
+            <p className="text-blue-50 text-lg mb-10 max-w-2xl leading-relaxed opacity-90">
+              We are actively seeking research partners to advance the frontiers of Atmospheric Water Generation. Join the revolution today.
             </p>
-            <button className="bg-white text-blue-700 hover:bg-blue-50 px-8 py-3.5 rounded-xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
-              Contact Collaboration Team
+            
+            {/* FUNCTIONAL MAIN BUTTON */}
+            <button 
+              onClick={handleContact}
+              className="bg-white text-blue-700 hover:bg-blue-50 px-10 py-4 rounded-2xl font-bold text-lg transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 flex items-center gap-2"
+            >
+              <Mail size={20} />
+              Contact Research Team
             </button>
           </div>
 
-          {/* Decor Circles */}
-          <div className="absolute top-0 left-0 w-64 h-64 bg-white opacity-5 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
-          <div className="absolute bottom-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full translate-x-1/2 translate-y-1/2"></div>
+          {/* Background Patterns */}
+          <div className="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
+             <div className="absolute top-10 left-10 w-32 h-32 border-4 border-white/30 rounded-full"></div>
+             <div className="absolute bottom-10 right-10 w-48 h-48 border-4 border-white/20 rounded-full"></div>
+          </div>
         </div>
 
       </div>
