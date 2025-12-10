@@ -9,7 +9,8 @@
   
   <style>
     /* --- 1. SETUP --- */
-    body { margin: 0; padding: 0; overflow: hidden; background: #0f172a; } /* Dark base for contrast */
+    /* overflow: hidden is here to stop scrolling DURING load */
+    body { margin: 0; padding: 0; overflow: hidden; background: #0f172a; } 
 
     #preloader {
       position: fixed;
@@ -47,7 +48,7 @@
       border-radius: 50%;
       box-shadow: 0 0 40px rgba(56, 189, 248, 0.6);
       z-index: 10;
-      animation: condense 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) 2.5s forwards; /* Starts after particles gather */
+      animation: condense 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) 2.5s forwards; 
     }
 
     /* --- 4. RIPPLE SHOCKWAVE --- */
@@ -109,7 +110,7 @@
     @keyframes condense {
       0% { width: 0; height: 0; opacity: 0; }
       50% { width: 80px; height: 80px; opacity: 1; transform: scale(1.2); }
-      100% { width: 0; height: 0; opacity: 0; transform: scale(0.1); } /* Implodes */
+      100% { width: 0; height: 0; opacity: 0; transform: scale(0.1); } 
     }
 
     @keyframes ripple-effect {
@@ -117,7 +118,6 @@
       100% { width: 800px; height: 800px; opacity: 0; border-width: 0px; }
     }
 
-    /* Text shimmering effect */
     .tagline {
       margin-top: 10px;
       color: #94a3b8;
@@ -159,10 +159,10 @@
 
   <script>
     // --- CONFIGURATION ---
-    const PARTICLE_COUNT = 60; // How many "vapor" dots
-    const GATHER_TIME = 2500; // When they start rushing to center (ms)
-    const EXPLODE_TIME = 3800; // When logo appears (ms)
-    const FINISH_TIME = 5500; // Total preloader time (ms)
+    const PARTICLE_COUNT = 60;
+    const GATHER_TIME = 2500;
+    const EXPLODE_TIME = 3800;
+    const FINISH_TIME = 5500;
 
     const preloader = document.getElementById('preloader');
     const logoContainer = document.querySelector('.logo-container');
@@ -173,73 +173,59 @@
     for (let i = 0; i < PARTICLE_COUNT; i++) {
       const p = document.createElement('div');
       p.classList.add('particle');
-      
-      // Random size
       const size = Math.random() * 4 + 2;
       p.style.width = `${size}px`;
       p.style.height = `${size}px`;
-      
-      // Random start position
       const x = Math.random() * window.innerWidth;
       const y = Math.random() * window.innerHeight;
       p.style.left = `${x}px`;
       p.style.top = `${y}px`;
-      
-      // Random float animation speed
       p.style.transition = `all ${Math.random() * 1 + 0.5}s ease-out`;
-      
       preloader.appendChild(p);
     }
 
     const particles = document.querySelectorAll('.particle');
 
-    // 2. INTERACTIVE MOUSE EFFECT (Parallax)
+    // 2. INTERACTIVE MOUSE EFFECT
     document.addEventListener('mousemove', (e) => {
       const mouseX = e.clientX;
       const mouseY = e.clientY;
-
       particles.forEach(p => {
         const speed = Math.random() * 0.05;
         const x = (window.innerWidth - mouseX * speed) / 50;
         const y = (window.innerHeight - mouseY * speed) / 50;
-        // Apply slight movement away from cursor
         p.style.transform = `translate(${x}px, ${y}px)`;
       });
     });
 
-    // 3. SEQUENCE: GATHER PARTICLES (Condensation)
+    // 3. SEQUENCE
     setTimeout(() => {
       const centerX = window.innerWidth / 2;
       const centerY = window.innerHeight / 2;
-
       particles.forEach(p => {
-        // Move all particles to exact center
-        p.style.transition = "all 1.2s cubic-bezier(0.6, -0.28, 0.735, 0.045)"; // "Suck in" effect
+        p.style.transition = "all 1.2s cubic-bezier(0.6, -0.28, 0.735, 0.045)";
         p.style.left = `${centerX}px`;
         p.style.top = `${centerY}px`;
-        p.style.opacity = '0'; // Fade out as they merge
+        p.style.opacity = '0';
       });
     }, GATHER_TIME);
 
-    // 4. SEQUENCE: EXPLOSION & LOGO REVEAL
     setTimeout(() => {
-      // Trigger Ripple
       ripple.classList.add('active');
-      
-      // Show Logo
       logoContainer.classList.add('show');
-      
-      // Fill Progress Bar
       setTimeout(() => {
         progressBar.style.width = "100%";
       }, 100);
-
     }, EXPLODE_TIME);
 
-    // 5. FINISH & EXIT
+    // 5. FINISH & EXIT (THE FIX IS HERE)
     window.addEventListener('load', () => {
       setTimeout(() => {
         preloader.classList.add('hidden');
+        
+        // --- THIS LINE FIXES THE SCROLLING ---
+        document.body.style.overflow = 'auto'; 
+        
         setTimeout(() => preloader.remove(), 1000);
       }, FINISH_TIME);
     });
