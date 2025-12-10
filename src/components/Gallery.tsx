@@ -1,6 +1,6 @@
 import { 
-  Camera, Play, Download, Eye, Calendar, Tag, 
-  X, ChevronLeft, ChevronRight, ZoomIn, Share2 
+  Camera, Play, Eye, Calendar, Tag, 
+  X, ChevronLeft, ChevronRight, Maximize2, Share2, Filter 
 } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
 
@@ -12,99 +12,100 @@ export default function Gallery({ darkMode }: GalleryProps) {
   const [activeCategory, setActiveCategory] = useState('All');
   const [visibleCount, setVisibleCount] = useState(6);
   const [selectedItemIndex, setSelectedItemIndex] = useState<number | null>(null);
+  const [isHovered, setIsHovered] = useState<number | null>(null);
 
-  const categories = ['All', 'Research Lab', 'Field Testing', 'Conferences', 'Awards', 'Team', 'Technology'];
+  const categories = ['All', 'Research Lab', 'Field Testing', 'Conferences', 'Awards', 'Team'];
 
   const galleryItems = [
     {
       id: 1,
-      title: "Advanced AWH Laboratory Setup",
+      title: "Advanced AWH Laboratory",
       category: "Research Lab",
       type: "image",
       date: "March 2024",
       description: "State-of-the-art atmospheric water harvesting research facility equipped with mass spectrometers.",
       image: "https://images.pexels.com/photos/2280549/pexels-photo-2280549.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      tags: ["Laboratory", "Equipment", "Research"]
+      tags: ["Lab", "R&D"]
     },
     {
       id: 2,
-      title: "MEGHDOOT Field Testing in Desert",
+      title: "Desert Field Testing",
       category: "Field Testing",
       type: "image",
       date: "February 2024",
       description: "Testing AWH systems in extreme arid conditions to validate efficiency at low humidity.",
       image: "https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      tags: ["Field Test", "Desert", "MEGHDOOT"]
+      tags: ["Field Test", "MEGHDOOT"]
     },
     {
       id: 3,
-      title: "Water Tech Summit Presentation",
+      title: "Global Water Summit",
       category: "Conferences",
       type: "video",
       date: "January 2024",
       description: "Dr. Smith presenting breakthrough research findings on thermodynamic cycles.",
       image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      tags: ["Conference", "Presentation", "Innovation"]
+      tags: ["Keynote", "Innovation"]
     },
     {
       id: 4,
-      title: "Innovation Excellence Award",
+      title: "Innovation Excellence",
       category: "Awards",
       type: "image",
       date: "December 2023",
       description: "Receiving international recognition for sustainable water technology solutions.",
       image: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      tags: ["Award", "Recognition", "Achievement"]
+      tags: ["Award", "Victory"]
     },
     {
       id: 5,
-      title: "Research Team Collaboration",
+      title: "The Research Team",
       category: "Team",
       type: "image",
       date: "November 2023",
       description: "Interdisciplinary team working on advanced desiccant material synthesis.",
       image: "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      tags: ["Team", "Collaboration", "Research"]
+      tags: ["Team", "Collaboration"]
     },
     {
       id: 6,
-      title: "MEGHDOOT System Components",
+      title: "System Architecture",
       category: "Technology",
       type: "image",
       date: "October 2023",
       description: "Detailed engineering view of the filtration and condensation chambers.",
       image: "https://images.pexels.com/photos/2591690/pexels-photo-2591690.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      tags: ["Technology", "Engineering", "Design"]
+      tags: ["Tech", "Engineering"]
     },
     {
       id: 7,
-      title: "Arctic Climate Testing",
+      title: "Arctic Deployment",
       category: "Field Testing",
       type: "video",
       date: "September 2023",
       description: "Analyzing AWH system performance in extreme cold and freezing conditions.",
       image: "https://images.pexels.com/photos/869258/pexels-photo-869258.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      tags: ["Arctic", "Climate", "Testing"]
+      tags: ["Climate", "Extreme"]
     },
     {
       id: 8,
-      title: "MIT Partnership Signing",
+      title: "MIT Signing Ceremony",
       category: "Conferences",
       type: "image",
       date: "August 2023",
       description: "Formal collaboration agreement signing with MIT Water Lab directors.",
       image: "https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      tags: ["Partnership", "MIT", "Global"]
+      tags: ["Partnership", "MIT"]
     },
     {
       id: 9,
-      title: "Laboratory Analysis Session",
+      title: "Microscopic Analysis",
       category: "Research Lab",
       type: "image",
       date: "July 2023",
       description: "Microscopic analysis of water quality and mineral content.",
       image: "https://images.pexels.com/photos/356040/pexels-photo-356040.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      tags: ["Analysis", "Quality", "Lab"]
+      tags: ["Quality", "Lab"]
     }
   ];
 
@@ -135,7 +136,6 @@ export default function Gallery({ darkMode }: GalleryProps) {
     }
   }, [selectedItemIndex, filteredItems.length]);
 
-  // Keyboard navigation for Lightbox
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (selectedItemIndex === null) return;
@@ -148,193 +148,172 @@ export default function Gallery({ darkMode }: GalleryProps) {
   }, [selectedItemIndex, nextImage, prevImage]);
 
   return (
-    <section id="gallery" className={`py-24 ${darkMode ? 'bg-slate-800' : 'bg-white'} relative`}>
+    <section id="gallery" className={`py-24 relative ${darkMode ? 'bg-slate-950' : 'bg-gray-50'}`}>
       
-      {/* --- LIGHTBOX MODAL --- */}
+      {/* Background Decor */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-purple-500/5 rounded-full blur-[120px]"></div>
+        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-pink-500/5 rounded-full blur-[100px]"></div>
+      </div>
+
+      {/* --- LIGHTBOX OVERLAY --- */}
       {selectedItemIndex !== null && (
-        <div className="fixed inset-0 z-[60] bg-black/95 backdrop-blur-md flex items-center justify-center animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-[60] bg-black/95 backdrop-blur-xl flex flex-col justify-center animate-in fade-in duration-300">
           
-          {/* Close Button */}
-          <button onClick={closeLightbox} className="absolute top-6 right-6 p-2 bg-white/10 rounded-full hover:bg-white/20 text-white transition-colors z-20">
-            <X size={32} />
-          </button>
-
-          {/* Navigation */}
-          <button onClick={prevImage} className="absolute left-4 md:left-8 p-3 bg-white/10 rounded-full hover:bg-white/20 text-white transition-colors z-20 hidden md:block">
-            <ChevronLeft size={40} />
-          </button>
-          <button onClick={nextImage} className="absolute right-4 md:right-8 p-3 bg-white/10 rounded-full hover:bg-white/20 text-white transition-colors z-20 hidden md:block">
-            <ChevronRight size={40} />
-          </button>
-
-          {/* Main Content */}
-          <div className="max-w-6xl w-full max-h-[90vh] flex flex-col items-center px-4">
-            <div className="relative w-full h-auto max-h-[70vh] flex justify-center mb-6">
-              <img 
-                src={filteredItems[selectedItemIndex].image} 
-                alt={filteredItems[selectedItemIndex].title} 
-                className="max-h-full max-w-full object-contain rounded-lg shadow-2xl"
-              />
-              {filteredItems[selectedItemIndex].type === 'video' && (
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div className="p-4 bg-white/20 backdrop-blur-md rounded-full">
-                    <Play size={48} className="text-white fill-white" />
-                  </div>
-                </div>
-              )}
+          {/* Controls */}
+          <div className="absolute top-0 left-0 w-full p-6 flex justify-between items-center z-50">
+            <span className="text-white/80 text-sm font-mono">
+              {selectedItemIndex + 1} / {filteredItems.length}
+            </span>
+            <div className="flex gap-4">
+              <button className="p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-all">
+                <Share2 size={24} />
+              </button>
+              <button onClick={closeLightbox} className="p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-all">
+                <X size={28} />
+              </button>
             </div>
+          </div>
+
+          {/* Main Image Stage */}
+          <div className="flex-1 relative flex items-center justify-center w-full h-full p-4 md:p-10">
+            <button onClick={prevImage} className="absolute left-4 md:left-10 p-4 rounded-full bg-white/5 hover:bg-white/20 text-white backdrop-blur-md transition-all z-40 hidden md:block group">
+              <ChevronLeft size={32} className="group-hover:-translate-x-1 transition-transform" />
+            </button>
             
-            <div className="text-center text-white max-w-3xl">
-              <div className="flex items-center justify-center gap-3 mb-2">
-                <span className="px-3 py-1 bg-purple-500/80 rounded-full text-xs font-bold uppercase tracking-wider">
-                  {filteredItems[selectedItemIndex].category}
-                </span>
-                <span className="text-white/60 text-sm flex items-center gap-1">
-                  <Calendar size={14} /> {filteredItems[selectedItemIndex].date}
-                </span>
-              </div>
-              <h3 className="text-2xl md:text-3xl font-bold mb-3">{filteredItems[selectedItemIndex].title}</h3>
-              <p className="text-white/80 leading-relaxed">{filteredItems[selectedItemIndex].description}</p>
-            </div>
+            <img 
+              src={filteredItems[selectedItemIndex].image} 
+              alt={filteredItems[selectedItemIndex].title} 
+              className="max-h-[85vh] max-w-full object-contain rounded-lg shadow-2xl animate-in zoom-in-95 duration-300"
+            />
+
+            <button onClick={nextImage} className="absolute right-4 md:right-10 p-4 rounded-full bg-white/5 hover:bg-white/20 text-white backdrop-blur-md transition-all z-40 hidden md:block group">
+              <ChevronRight size={32} className="group-hover:translate-x-1 transition-transform" />
+            </button>
+          </div>
+
+          {/* Caption Bar */}
+          <div className="bg-gradient-to-t from-black via-black/80 to-transparent pt-12 pb-8 px-6 text-center">
+            <h3 className="text-2xl font-bold text-white mb-2">{filteredItems[selectedItemIndex].title}</h3>
+            <p className="text-white/70 max-w-2xl mx-auto">{filteredItems[selectedItemIndex].description}</p>
           </div>
         </div>
       )}
 
-      {/* --- MAIN SECTION CONTENT --- */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className={`text-4xl md:text-5xl font-black ${darkMode ? 'text-white' : 'text-gray-900'} mb-6`}>
-            Research <span className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">Gallery</span>
-          </h2>
-          <p className={`text-xl ${darkMode ? 'text-slate-300' : 'text-gray-600'} max-w-3xl mx-auto`}>
-            Visual documentation of our innovation journey, from laboratory breakthroughs to global recognition.
-          </p>
-        </div>
-
-        {/* Gallery Stats Strip */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
-          {[
-            { icon: Camera, val: "500+", label: "Images Captured", color: "purple" },
-            { icon: Play, val: "25", label: "Video Documentaries", color: "blue" },
-            { icon: Eye, val: "15K", label: "Total Views", color: "green" },
-            { icon: Download, val: "2.5K", label: "Resource Downloads", color: "cyan" }
-          ].map((stat, i) => (
-            <div key={i} className={`${darkMode ? 'bg-slate-700/30 border-slate-600' : 'bg-gray-50 border-gray-200'} border rounded-2xl p-6 text-center transform hover:scale-105 transition-all duration-300`}>
-              <stat.icon className={`mx-auto mb-3 text-${stat.color}-500`} size={28} />
-              <div className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>{stat.val}</div>
-              <div className={`text-xs uppercase tracking-wide font-medium ${darkMode ? 'text-slate-400' : 'text-gray-500'}`}>{stat.label}</div>
+        {/* --- HEADER: Professional & Modern --- */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+          <div className="max-w-2xl">
+            <span className={`inline-block py-1 px-3 rounded-full text-xs font-bold uppercase tracking-wider mb-4 border ${darkMode ? 'bg-purple-900/30 border-purple-700 text-purple-400' : 'bg-purple-50 border-purple-200 text-purple-600'}`}>
+              Visual Archive
+            </span>
+            <h2 className={`text-4xl md:text-6xl font-black ${darkMode ? 'text-white' : 'text-slate-900'} tracking-tight leading-tight`}>
+              Research <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500">Gallery</span>
+            </h2>
+          </div>
+          
+          {/* --- FLOATING FILTER BAR --- */}
+          <div className="overflow-x-auto pb-2 hide-scrollbar">
+            <div className={`inline-flex p-1.5 rounded-full border ${darkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white border-slate-200 shadow-md'}`}>
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => { setActiveCategory(category); setVisibleCount(6); }}
+                  className={`px-5 py-2.5 rounded-full text-sm font-bold whitespace-nowrap transition-all duration-300
+                    ${activeCategory === category
+                      ? 'bg-slate-900 text-white shadow-lg'
+                      : darkMode
+                      ? 'text-slate-400 hover:text-white hover:bg-slate-700'
+                      : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100'
+                    }`}
+                >
+                  {category}
+                </button>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
 
-        {/* Category Filter Pills */}
-        <div className="flex flex-wrap justify-center gap-2 mb-12">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => { setActiveCategory(category); setVisibleCount(6); }}
-              className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 border
-                ${activeCategory === category
-                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white border-transparent shadow-lg shadow-purple-500/30 scale-105'
-                  : darkMode
-                  ? 'bg-slate-800 text-slate-300 border-slate-700 hover:border-slate-500 hover:bg-slate-700'
-                  : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300 hover:bg-gray-50'
-                }`}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-
-        {/* Dynamic Masonry-style Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* --- CINEMATIC GRID --- */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {displayedItems.map((item, index) => (
             <div
               key={item.id}
               onClick={() => openLightbox(index)}
-              className={`group relative overflow-hidden rounded-2xl cursor-pointer transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl
-                ${darkMode ? 'bg-slate-800 shadow-black/50' : 'bg-white shadow-gray-200'}`}
+              onMouseEnter={() => setIsHovered(index)}
+              onMouseLeave={() => setIsHovered(null)}
+              className="group relative h-[400px] rounded-3xl overflow-hidden cursor-pointer shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
             >
-              {/* Image Container */}
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                
-                {/* Overlay on Hover */}
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4 backdrop-blur-[2px]">
-                  <button className="p-3 bg-white/20 hover:bg-white/30 rounded-full text-white backdrop-blur-md transition-transform hover:scale-110">
-                    <ZoomIn size={24} />
-                  </button>
-                  <button className="p-3 bg-white/20 hover:bg-white/30 rounded-full text-white backdrop-blur-md transition-transform hover:scale-110">
-                    <Share2 size={24} />
-                  </button>
-                </div>
+              {/* Image Background */}
+              <img
+                src={item.image}
+                alt={item.title}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              
+              {/* Dynamic Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300"></div>
 
-                {/* Type Badge */}
-                <div className="absolute top-4 right-4 z-10">
-                  <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold backdrop-blur-md shadow-sm
-                    ${item.type === 'video' ? 'bg-red-500/90 text-white' : 'bg-white/90 text-slate-800'}`}>
-                    {item.type === 'video' ? <Play size={10} fill="currentColor" /> : <Camera size={12} />}
-                    {item.type === 'video' ? 'Video' : 'Photo'}
-                  </span>
-                </div>
+              {/* Floating Top Badge */}
+              <div className="absolute top-4 right-4 z-20 translate-y-[-10px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/20 backdrop-blur-md text-white text-xs font-bold border border-white/10">
+                  {item.type === 'video' ? <Play size={12} fill="white" /> : <Camera size={12} />}
+                  {item.type === 'video' ? 'Play Video' : 'View Image'}
+                </span>
               </div>
 
-              {/* Card Content */}
-              <div className={`p-6 border-t ${darkMode ? 'border-slate-700' : 'border-gray-100'}`}>
-                <div className="flex items-center justify-between mb-3">
-                  <span className={`text-xs font-bold uppercase tracking-wider ${darkMode ? 'text-purple-400' : 'text-purple-600'}`}>
-                    {item.category}
+              {/* Content Overlay (Always Visible but Animates) */}
+              <div className="absolute bottom-0 left-0 w-full p-8 z-20 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                <div className="flex items-center gap-3 mb-3 opacity-80">
+                  <span className="text-purple-300 text-xs font-bold uppercase tracking-wider">{item.category}</span>
+                  <span className="w-1 h-1 rounded-full bg-white/50"></span>
+                  <span className="text-white/70 text-xs flex items-center gap-1">
+                    <Calendar size={12} /> {item.date}
                   </span>
-                  <div className="flex items-center space-x-1 text-xs font-medium opacity-60">
-                    <Calendar size={12} />
-                    <span>{item.date}</span>
-                  </div>
                 </div>
-
-                <h3 className={`text-lg font-bold mb-2 line-clamp-1 ${darkMode ? 'text-white group-hover:text-purple-400' : 'text-gray-900 group-hover:text-purple-600'} transition-colors`}>
+                
+                <h3 className="text-2xl font-bold text-white mb-2 leading-tight group-hover:text-purple-200 transition-colors">
                   {item.title}
                 </h3>
                 
-                <p className={`text-sm line-clamp-2 mb-4 ${darkMode ? 'text-slate-400' : 'text-gray-500'}`}>
-                  {item.description}
-                </p>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2">
-                  {item.tags.map((tag, i) => (
-                    <span key={i} className={`inline-flex items-center px-2 py-1 rounded-md text-[10px] font-medium border
-                      ${darkMode ? 'bg-slate-700 border-slate-600 text-slate-300' : 'bg-gray-50 border-gray-200 text-gray-600'}`}>
-                      <Tag size={10} className="mr-1 opacity-50" />
-                      {tag}
-                    </span>
-                  ))}
+                {/* Description reveals on hover */}
+                <div className={`grid transition-all duration-300 ${isHovered === index ? 'grid-rows-[1fr] opacity-100 mt-3' : 'grid-rows-[0fr] opacity-0'}`}>
+                  <div className="overflow-hidden">
+                    <p className="text-white/70 text-sm leading-relaxed mb-4">
+                      {item.description}
+                    </p>
+                    <div className="flex gap-2">
+                      {item.tags.map((tag, i) => (
+                        <span key={i} className="px-2 py-1 rounded text-[10px] font-bold bg-white/10 text-white/80 border border-white/10">
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
+
+                {/* Hover Indicator Line */}
+                <div className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-500 w-0 group-hover:w-full"></div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Load More Button - Functional */}
+        {/* --- LOAD MORE TRIGGER --- */}
         {visibleCount < filteredItems.length && (
-          <div className="text-center mt-16">
+          <div className="flex justify-center mt-16">
             <button 
               onClick={() => setVisibleCount(prev => prev + 3)}
-              className="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-200 bg-slate-900 font-lg rounded-xl hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900"
+              className={`group flex items-center gap-3 px-8 py-4 rounded-full font-bold transition-all duration-300 hover:scale-105 shadow-xl
+                ${darkMode ? 'bg-white text-slate-900 hover:bg-purple-50' : 'bg-slate-900 text-white hover:bg-slate-800'}`}
             >
-              <span className="absolute inset-0 w-full h-full -mt-1 rounded-lg opacity-30 bg-gradient-to-b from-transparent via-transparent to-gray-200"></span>
-              <span className="relative flex items-center gap-2">
-                Load More Content
-                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </span>
+              <Filter size={18} className="group-hover:rotate-180 transition-transform duration-500" />
+              Load More Moments
             </button>
           </div>
         )}
+
       </div>
     </section>
   );
