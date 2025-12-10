@@ -14,8 +14,9 @@ export default function Header({ darkMode, toggleDarkMode }: HeaderProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           <div className="flex items-center space-x-3">
+            {/* UPDATED: Simplified filename to prevent Vercel errors */}
             <img 
-              src="/public/Maithri Aquatech_Logo_2022.jpg" 
+              src="/logo.jpg" 
               alt="Maithri Aquatech" 
               className="h-12 w-auto rounded-lg shadow-sm"
             />
