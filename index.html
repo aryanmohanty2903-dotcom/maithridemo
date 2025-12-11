@@ -1,13 +1,13 @@
-<!doctype html>
-<html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/png" href="/INSTA FUN FACTS (5).png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Maithri Aquatech Dynamic R&amp;D Website</title>
   
-  <meta name="description" content="Maithri Aquatech R&D: Pioneering the future of water." />
+  <title>Maithri Aquatech R&D | Atmospheric Water Generation (AWG)</title>
+  
+  <meta name="description" content="Explore Maithri Aquatech's R&D in Atmospheric Water Generation (AWG). Our Meghdoot technology delivers sustainable, zero-groundwater water solutions directly from the air." />
+  
+  <meta name="keywords" content="Maithri Aquatech, Atmospheric Water Generator, AWG, Water from Air, Meghdoot, Sustainable Water, Water R&D, Zero Groundwater, Water Security, Hydro-technology" />
 
   <style>
     /* --- CORE PRELOADER STYLES --- */
@@ -148,45 +148,3 @@
     }
   </style>
 </head>
-
-<body>
-  <div class="preloader-container" id="atm-preloader">
-    <div class="cloud-bg">
-      <div class="cloud-1"></div>
-      <div class="cloud-2"></div>
-      <div class="cloud-3"></div>
-    </div>
-
-    <div class="water-drop"></div>
-
-    <div class="final-logo-wrapper">
-      <img src="/INSTA FUN FACTS (5).png" alt="Maithri Aquatech Logo" class="logo-reveal-img" />
-      <div class="loading-text">GENERATING WATER FROM AIR</div>
-      <div class="progress-track">
-        <div class="progress-fill"></div>
-      </div>
-    </div>
-  </div>
-
-  <div id="root"></div>
-
-  <script type="module" src="/src/main.tsx"></script>
-
-  <script>
-    window.addEventListener('load', () => {
-      const preloader = document.getElementById('atm-preloader');
-      
-      if (preloader) {
-        // MATCHED TIMING: 4000ms = 4 seconds
-        // (1.5s Delay + 2.5s Loading Bar = 4.0s Total)
-        setTimeout(() => {
-          preloader.classList.add('hidden');
-          preloader.addEventListener('transitionend', () => {
-             preloader.remove();
-          }, { once: true });
-        }, 3000); 
-      }
-    });
-  </script>
-</body>
-</html>
