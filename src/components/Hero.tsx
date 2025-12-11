@@ -12,9 +12,8 @@ export default function Hero({ darkMode }: HeroProps) {
 
   // --- TYPING EFFECT STATE ---
   const [displayedText, setDisplayedText] = useState('');
-  // Added the ® symbol in the source text logic, but we handle styling in the render
   const fullText = "Pioneering Atmospheric Water Generation. We transform air into the world's purest resource using the revolutionary MEGHDOOT technology.";
-  
+   
   // --- PARALLAX MOUSE EFFECT ---
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -43,8 +42,8 @@ export default function Hero({ darkMode }: HeroProps) {
             return prev;
           }
         });
-      }, 50); // CHANGED: Increased from 30 to 50 for slower typing
-      
+      }, 50); 
+       
       return () => clearInterval(intervalId);
     }, 1000);
 
@@ -61,12 +60,10 @@ export default function Hero({ darkMode }: HeroProps) {
 
   // Helper to render text with specific styling for MEGHDOOT
   const renderTypedText = () => {
-    // If the text hasn't reached "MEGHDOOT" yet, just return plain text
     if (!displayedText.includes("MEGHDOOT")) {
       return displayedText;
     }
 
-    // Split around MEGHDOOT to apply styles
     const parts = displayedText.split("MEGHDOOT");
     return (
       <>
@@ -81,14 +78,14 @@ export default function Hero({ darkMode }: HeroProps) {
 
   return (
     <section id="home" className="min-h-screen relative overflow-hidden flex items-center perspective-1000">
-      
+       
       {/* --- INLINE STYLES FOR ANIMATIONS --- */}
       <style>{`
         @keyframes fadeInUp {
           from { opacity: 0; transform: translateY(40px); }
           to { opacity: 1; transform: translateY(0); }
         }
-        
+         
         @keyframes blink {
           0%, 100% { opacity: 1; }
           50% { opacity: 0; }
@@ -111,7 +108,7 @@ export default function Hero({ darkMode }: HeroProps) {
           vertical-align: middle;
           animation: blink 1s infinite;
         }
-        
+         
         .glow-text {
           text-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
         }
@@ -135,7 +132,7 @@ export default function Hero({ darkMode }: HeroProps) {
 
         <div className={`absolute inset-0 transition-opacity duration-1000 ${darkMode ? 'bg-slate-900/70' : 'bg-blue-900/50'}`}></div>
         <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent"></div>
-        
+         
         <div className="absolute inset-0 pointer-events-none">
            <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-white/30 rounded-full animate-ping duration-[3s]"></div>
            <div className="absolute top-3/4 right-1/4 w-3 h-3 bg-blue-400/30 rounded-full animate-pulse duration-[4s]"></div>
@@ -164,9 +161,9 @@ export default function Hero({ darkMode }: HeroProps) {
               <span className="text-xs font-bold text-cyan-100 tracking-[0.2em] uppercase">Advanced R&D Platform</span>
             </div>
 
-            {/* Headline */}
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white leading-[1.1] drop-shadow-2xl text-left animate-title-entry delay-200">
-              THE FUTURE OF<br />
+            {/* Headline - UPDATED FOR MOBILE LAYOUT & SPACING */}
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white leading-[1.1] drop-shadow-2xl text-left animate-title-entry delay-200 pt-4 sm:pt-0">
+              <span className="whitespace-nowrap">THE FUTURE OF</span><br />
               <span className="text-white drop-shadow-lg">
                 WATER IS HERE.
               </span>
@@ -176,7 +173,7 @@ export default function Hero({ darkMode }: HeroProps) {
             <div className="min-h-[84px] animate-title-entry delay-500 relative pl-6">
               {/* Vertical Decorative Line */}
               <div className="absolute left-0 top-1 bottom-1 w-1 bg-cyan-400/80 rounded-full shadow-[0_0_10px_rgba(34,211,238,0.5)]"></div>
-              
+               
               <p className="text-xl text-blue-100 font-medium max-w-lg leading-relaxed text-left drop-shadow-md">
                 {renderTypedText()}
                 <span className="cursor-blink"></span>
@@ -185,7 +182,7 @@ export default function Hero({ darkMode }: HeroProps) {
 
             {/* Interactive Buttons */}
             <div className="flex flex-wrap gap-5 pt-4 justify-start animate-title-entry delay-500">
-              
+               
               {/* Primary Button */}
               <button 
                 onClick={scrollToResearch}
@@ -227,7 +224,7 @@ export default function Hero({ darkMode }: HeroProps) {
 
           {/* === RIGHT COLUMN: DYNAMIC VIDEO PLAYER === */}
           <div className="relative h-full min-h-[400px] flex items-center justify-center lg:justify-end perspective-1000">
-            
+             
             {showVideo && (
               <div 
                 className="relative w-full max-w-xl bg-black/80 backdrop-blur-2xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl animate-in slide-in-from-right-10 fade-in duration-500 ring-1 ring-white/20"
@@ -273,7 +270,6 @@ export default function Hero({ darkMode }: HeroProps) {
               </div>
             )}
           </div>
-
         </div>
       </div>
     </section>
