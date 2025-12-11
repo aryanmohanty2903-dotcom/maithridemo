@@ -1,3 +1,6 @@
+<!doctype html>
+<html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/png" href="/INSTA FUN FACTS (5).png" />
@@ -23,7 +26,7 @@
       align-items: center;
       z-index: 99999;
       overflow: hidden;
-      transition: opacity 0.5s ease-out, visibility 0.5s ease-out; /* Faster exit */
+      transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
     }
 
     .preloader-container.hidden {
@@ -103,7 +106,6 @@
       margin-top: 15px;
       overflow: hidden;
       opacity: 0;
-      /* Appears at 1.5s */
       animation: fade-in-bar 0.5s ease-out 1.5s forwards; 
     }
 
@@ -112,7 +114,6 @@
       height: 100%;
       background: linear-gradient(90deg, #38bdf8, #0284c7);
       border-radius: 10px;
-      /* Starts filling at 1.5s, takes 2.5s to finish. Total = 4.0s */
       animation: fill-bar 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) 1.5s forwards;
     }
 
@@ -148,3 +149,44 @@
     }
   </style>
 </head>
+
+<body>
+  <div class="preloader-container" id="atm-preloader">
+    <div class="cloud-bg">
+      <div class="cloud-1"></div>
+      <div class="cloud-2"></div>
+      <div class="cloud-3"></div>
+    </div>
+
+    <div class="water-drop"></div>
+
+    <div class="final-logo-wrapper">
+      <img src="/INSTA FUN FACTS (5).png" alt="Maithri Aquatech Logo" class="logo-reveal-img" />
+      <div class="loading-text">GENERATING WATER FROM AIR</div>
+      <div class="progress-track">
+        <div class="progress-fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="root"></div>
+
+  <script type="module" src="/src/main.tsx"></script>
+
+  <script>
+    window.addEventListener('load', () => {
+      const preloader = document.getElementById('atm-preloader');
+      
+      if (preloader) {
+        // Set to 4200ms to allow the progress bar (which ends at 4.0s) to finish completely
+        setTimeout(() => {
+          preloader.classList.add('hidden');
+          preloader.addEventListener('transitionend', () => {
+             preloader.remove();
+          }, { once: true });
+        }, 4200); 
+      }
+    });
+  </script>
+</body>
+</html>
