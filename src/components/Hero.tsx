@@ -84,10 +84,16 @@ export default function Hero({ darkMode }: HeroProps) {
               <span className="text-xs font-bold text-cyan-100 tracking-[0.2em] uppercase">Advanced R&D Platform</span>
             </div>
 
-            {/* Headline - ALL WHITE */}
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white leading-[1.1] drop-shadow-2xl text-left">
-              THE FUTURE OF<br />
-              WATER IS HERE.
+            {/* Headline - FIXED MOBILE WRAPPING & WHITE COLOR */}
+            {/* Changed text-5xl to text-4xl on mobile to fit "THE FUTURE OF" on one line */}
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white leading-[1.1] drop-shadow-2xl text-left">
+              {/* Force "THE FUTURE OF" to not wrap */}
+              <span className="whitespace-nowrap">THE FUTURE OF</span><br />
+              
+              {/* WATER IS HERE on the next line */}
+              <span className="text-white drop-shadow-lg">
+                WATER IS HERE.
+              </span>
             </h1>
 
             {/* Description */}
