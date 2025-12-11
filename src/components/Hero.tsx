@@ -51,7 +51,7 @@ export default function Hero({ darkMode }: HeroProps) {
           <source src="/65562-515098354.mp4" type="video/mp4" />
         </video>
 
-        {/* Darker Overlay for Better Readability */}
+        {/* Overlay */}
         <div className={`absolute inset-0 transition-opacity duration-1000 ${darkMode ? 'bg-slate-900/70' : 'bg-blue-900/50'}`}></div>
         <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent"></div>
         
@@ -84,22 +84,10 @@ export default function Hero({ darkMode }: HeroProps) {
               <span className="text-xs font-bold text-cyan-100 tracking-[0.2em] uppercase">Advanced R&D Platform</span>
             </div>
 
-            {/* Headline - UPDATED LAYOUT & COLORS */}
+            {/* Headline - ALL WHITE */}
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white leading-[1.1] drop-shadow-2xl text-left">
               THE FUTURE OF<br />
-              
-              {/* 'WATER' -> Cyan Gradient */}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-cyan-400 filter drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)]">
-                WATER
-              </span>
-              
-              {/* Space */}
-              {" "}
-              
-              {/* 'IS HERE' -> White */}
-              <span className="text-white drop-shadow-lg">
-                IS HERE.
-              </span>
+              WATER IS HERE.
             </h1>
 
             {/* Description */}
@@ -134,7 +122,7 @@ export default function Hero({ darkMode }: HeroProps) {
               </button>
             </div>
 
-            {/* Stats - Clean Row */}
+            {/* Stats */}
             <div className="grid grid-cols-3 gap-8 pt-10 border-t border-white/10 max-w-lg text-left">
               {[
                 { val: "2000+", label: "Installations" },
